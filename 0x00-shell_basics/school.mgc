@@ -1,2 +1,1 @@
-#!/bin/bash
-file -e '0 string SCHOOL School data\n!:mime School' > school.mgc
+echo -e '0 string SCHOOL School data\n!:mime School' > school.mgc
