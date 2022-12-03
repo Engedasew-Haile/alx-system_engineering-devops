@@ -1,2 +1,2 @@
 #!/bin/bash
-file -C-m SCHOOL School data
+file -C -m <SCHOOL School data>
