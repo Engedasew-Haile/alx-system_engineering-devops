@@ -1,4 +1,4 @@
 #!/bin/bash
 #file --mime-type -m school.mgc *
 #file -m school.mgc *
-grep School SCHOOL school.mgc
+grep SCHOOL school.mgc
