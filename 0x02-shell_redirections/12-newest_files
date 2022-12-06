@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -tp | grep -v /$ | head -l
+ls -t1 | head -n 10
