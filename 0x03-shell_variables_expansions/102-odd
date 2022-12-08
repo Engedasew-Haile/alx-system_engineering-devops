@@ -1,2 +1,2 @@
 #1/bin/bash
-awk 'NR % 2 {print} !(NR % 2){print length($0)}' file1 fast2
+awk 'FNR==NR{lines[$0]=1;next} !($0 in lines)' file1 fast2
