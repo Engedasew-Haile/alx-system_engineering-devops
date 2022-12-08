@@ -1,2 +1,2 @@
-#1/bin/bash
+#!/bin/bash
 awk 'FNR==NR{lines[$0]=1;next} !($0 in lines)' file1 fast2
