@@ -6,9 +6,10 @@
 /**
  * main - zombies
  *
- * Description: make five zombies
+ * Description: program that creates 5 zombie processes
  * Return: 0 for success
  */
+
 int main(void)
 {
 	int i;
