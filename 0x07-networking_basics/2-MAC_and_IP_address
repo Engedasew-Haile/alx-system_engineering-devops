@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
-A media access control address (MAC address) is a unique identifier assigned to a network interface controller (NIC) for use as a network address in communications within a network segment. This use is common in most IEEE 802 networking technologies, including Ethernet, Wi-Fi, and Bluetooth.
 
-Addresses in computer networks are known as IP addresses. An IP address consists of two components: the network address and the host address. The network address is used to find the subnet in which the computer or the device is located and the host address is used to find the computer or the device in the subnet.
+What is a MAC address?
+1-MAC- is a media access control address (MAC address) is a unique identifier assigned to a network interface controller 
+2-(NIC) for use as a network address in communications within a network segment. This use is common in most IEEE 802 networking technologies, including Ethernet, Wi-Fi, and Bluetooth.
+
+What is an IP address?
+1-Addresses in computer networks are known as IP addresses. An IP address consists of two components: the network address and the host address. 
+The network address is used to find the subnet in which the computer or the device is located and the host address is used to find the computer or the device in the subnet.
+2-An Internet Protocol (IP) address is a unique numerical identifier for every device or network that connects to the internet. Typically assigned by an internet service provider (ISP), an IP address is an online device address used for communicating across the internet
+
