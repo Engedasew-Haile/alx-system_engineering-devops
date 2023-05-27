@@ -1,0 +1,30 @@
+1) What is a server
+In computing, a server is a piece of computer hardware or software that provides functionality for other programs or devices, called "clients". 
+This architecture is called the client–server model.
+servers are employed as listed below 
+  => 1 server ()
+  => 1 web server (Nginx)
+  => 1 application server
+  => 1 application files (your code base)
+  => 1 database (MySQL)
+  => 1 domain name foobar.com configured with a www record that points to your server IP 8.8.8.8
+
+2) What is the role of the domain name (same as to this project)
+Domain names serve to identify Internet resources, such as computers, networks, and services, with a text-based label that is easier to 
+memorize than the numerical addresses used in the Internet protocols. A domain name may represent entire collections of such resources or individual instances.
+for this queastion 
+The type of DNS record www is in www.foobar.com (8.8.8.8)
+www.foobar.com uses an A record. This can be checked by running dig www.foobar.com.
+
+
+in win terminal testing of or Pinging google its translate as shown below
+home>>ping google.com [172.217.170.206] with 32 bytes of data
+Reply from 172.217.170.206: bytes=32 time=278ms TTL=114
+Reply from 172.217.170.206: bytes=32 time=323ms TTL=114
+Reply from 172.217.170.206: bytes=32 time=297ms TTL=114
+Reply from 172.217.170.206: bytes=32 time=297ms TTL=114
+
+Ping statistics for 172.217.170.206:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 278ms, Maximum = 323ms, Average = 298ms
