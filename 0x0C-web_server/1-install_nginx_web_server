@@ -7,18 +7,7 @@
 	# When querying Nginx at its root / with a GET request. . . .the string Hello World!
 
 # update & install
-sudo apt-get update -y -qq && \
-	 sudo apt-get install nginx -y
-
-sudo service nginx start
-
-sudo ufw allow 'Nginx HTTP'
-
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
-
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
-
-echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
-
-sudo service nginx restart
+sapt-get update
+apt-get install -y nginx
+echo "Holberton School" > /var/www/html/index.html
+service nginx start
