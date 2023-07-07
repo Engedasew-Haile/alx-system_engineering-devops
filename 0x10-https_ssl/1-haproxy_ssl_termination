@@ -50,3 +50,13 @@ backend www-backend
     server web-server 127.0.0.1:80 check
 
 EOT
+
+    # Restart HAproxy service
+    echo "Restarting HAproxy service..."
+    sudo service haproxy restart
+
+    echo "HAproxy SSL termination configuration completed successfully."
+}
+
+# Call the function to configure HAproxy for SSL termination
+configure_haproxy_ssl_termination
