@@ -1,67 +1,52 @@
+#!/bin/bash
+
+# Function to create a certificate using certbot and configure HAproxy for SSL termination
+function configure_haproxy_ssl_termination() {
+    # Install HAproxy if not already installed
+    if ! command -v haproxy &> /dev/null; then
+        echo "HAproxy is not installed. Installing HAproxy..."
+        sudo apt-get update
+        sudo apt-get install -y haproxy
+    fi
+
+    # Check HAproxy version
+    haproxy_version=$(haproxy -v | grep -oP "(?<=HA-Proxy version )\d+\.\d+")
+    if (( $(echo "$haproxy_version < 1.5" | bc -l) )); then
+        echo "HAproxy version $haproxy_version does not support SSL termination. Please install HAproxy version 1.5 or higher."
+        exit 1
+    fi
+
+    # Install certbot if not already installed
+    if ! command -v certbot &> /dev/null; then
+        echo "Certbot is not installed. Installing Certbot..."
+        sudo apt-get update
+        sudo apt-get install -y certbot
+    fi
+
+    # Generate SSL certificate using certbot
+    echo "Generating SSL certificate using certbot..."
+    sudo certbot certonly --standalone -d www.example.com
+
+    # Configure HAproxy for SSL termination
+    echo "Configuring HAproxy for SSL termination..."
+    sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+    sudo tee /etc/haproxy/haproxy.cfg > /dev/null << EOT
 global
-        log /dev/log    local0
-        log /dev/log    local1 notice
-        chroot /var/lib/haproxy
-        stats socket /run/haproxy/admin.sock mode 660 level admin
-        stats timeout 30s
-        user haproxy
-        group haproxy
-        daemon
-
-        # Setting up SSL from tutorial
-        # https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04
-        maxconn 2048
-        tune.ssl.default-dh-param 2048
-
-        # Default SSL material locations
-        ca-base /etc/ssl/certs
-        crt-base /etc/ssl/private
-
-        # Default ciphers to use on SSL-enabled listening sockets.
-        # For more information, see ciphers(1SSL). This list is from:
-        #  https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
-        ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
-        ssl-default-bind-options no-sslv3
+    ssl-default-bind-ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK
+    ssl-default-bind-options no-sslv3 no-tlsv10 no-tlsv11
 
 defaults
-        log     global
-        mode    http
-        option  httplog
-        option  dontlognull
-        timeout connect 5000
-        timeout client  50000
-        timeout server  50000
-        errorfile 400 /etc/haproxy/errors/400.http
-        errorfile 403 /etc/haproxy/errors/403.http
-        errorfile 408 /etc/haproxy/errors/408.http
-        errorfile 500 /etc/haproxy/errors/500.http
-        errorfile 502 /etc/haproxy/errors/502.http
-        errorfile 503 /etc/haproxy/errors/503.http
-        errorfile 504 /etc/haproxy/errors/504.http
-        # Setting up SSL from tutorial
-        # https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04
-        option forwardfor
-        option http-server-close
-
-# Setting up SSL from tutorial
-
-frontend www-http
-        bind *:80
-        reqadd X-Forwarded-Proto:\ http
-        default_backend www-backend
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
 
 frontend www-https
-        bind *:443 ssl crt /etc/haproxy/certs/www.melissax.online.pem
-        reqadd X-Forwarded-Proto:\ https
-        acl letsencrypt-acl path_beg /.well-known/acme-challenge/
-        use_backend letsencrypt-backend if letsencrypt-acl
-        default_backend www-backend
+    bind *:443 ssl crt /etc/letsencrypt/live/www.example.com/fullchain.pem
+    reqadd X-Forwarded-Proto:\ https
+    default_backend www-backend
 
 backend www-backend
-        balance roundrobin
-        redirect scheme https if !{ ssl_fc }
-        server 338-web-01 52.91.118.32:80 check
-        server 338-web-02 34.234.204.214:80 check
+    server web-server 127.0.0.1:80 check
 
-backend letsencrypt-backend
-        server letsencrypt 127.0.0.1:54321
+EOT
