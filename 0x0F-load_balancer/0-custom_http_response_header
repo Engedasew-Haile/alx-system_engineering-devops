@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # duplicate web-01 to web-02
 
-
 function install() {
 	command -v "$1" &> /dev/null
 
@@ -52,7 +51,7 @@ server_config=\
 			try_files \$uri \$uri/ =404;
 		}
 		if (\$request_filename ~ redirect_me){
-			rewrite ^ https://melakudemeke.tech/ permanent;
+			rewrite ^ https://Engedasew-Haile.tech/ permanent;
 		}
 		error_page 404 /error_404.html;
 		location = /error_404.html {
