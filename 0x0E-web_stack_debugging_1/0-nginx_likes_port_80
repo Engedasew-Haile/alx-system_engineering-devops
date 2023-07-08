@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Ubuntu container’s Nginx installation from listening on port 80
-./0-nginx_likes_port_80
-echo "Welcome to nginx!" > /var/run/nginx.pid
-echo "Welcome to nginx!" > /run/nginx.pid
+
+sed -i "s/8080/80/g" /etc/nginx/sites-enabled/default
+service nginx restart
