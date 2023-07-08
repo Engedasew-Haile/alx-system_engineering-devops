@@ -1,18 +1,15 @@
 #!/usr/bin/env bash
 # Configure your Nginx server so that /redirect_me is redirecting to another page.
 
+# Upadating Packages before Installations
 sudo apt-get update
-sudo apt-get install nginx -y
+sudo apt-get install -y nginx
 
-sudo service nginx start
-sudo ufw 'Nginx HTTP'
+# Creating an index.html page
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
-
-echo -e "Hello World!" > /var/www/html/index.html
-
-# Setting up /redirect_me to a youtube video
-sudo sed -i '24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+# Performing a 301 Redirection
+string_for_replacement="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/engedasew-haile permanent;"
+sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
 sudo service nginx restart
