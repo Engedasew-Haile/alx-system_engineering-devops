@@ -3,9 +3,8 @@
 
 sudo apt-get update
 sudo apt-get install nginx
-sudo ufw allow 'Nginx HTTP'
+sudo ufw 'Nginx HTTP'
 echo  "Hello World!" | sudo tee /var/www/html/index.html 
-# sudo service nginx start
 
 # test nginx config
 sudo nginx -t
