@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # configure ubunu server to instal nginx
 
-sudo apt-get update -y -qq && \
-	 sudo apt-get install nginx -y
-sudo service nginx start
+sudo apt-get update
+sudo apt-get install nginx
 sudo ufw allow 'Nginx HTTP'
-sudo chown -R "$USER":"$USER" /var/log/www/html
-sudo chmod -R 755 /var/log/www
-cp /var/log/www/html/index.nginx-debian.html /var/log/www/html/index.nginx-debian.html.bckp
-echo -e "Hello World!" | dd status=none of=/var/log/www/html/index.nginx-debian.html
-sudo service nginx restart
+echo  "Hello World!" | sudo tee /var/www/html/index.html 
+# sudo service nginx start
+
+# test nginx config
+sudo nginx -t
+sudo service nginx reload 
