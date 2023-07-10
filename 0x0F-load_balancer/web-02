@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# login web-01
+# login web-02
 
 # setup ssh agent
 eval $("ssh-agent")
