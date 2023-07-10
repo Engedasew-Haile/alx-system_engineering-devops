@@ -3,7 +3,7 @@
 
 # Updating and installations
 sudo apt-get update
-sudo apt-get install -y nginx
+sudo apt-get install nginx -y
 
 # an index.html page
 echo "Hello World!" | sudo tee /var/www/html/index.html
