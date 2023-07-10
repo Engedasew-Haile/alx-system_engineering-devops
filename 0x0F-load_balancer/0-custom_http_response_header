@@ -6,8 +6,8 @@ function install() {
 
 	#shellcheck disable=SC2181
 	if [ $? -ne 0 ]; then
-		sudo apt-get update -y -qq && \
-			sudo apt-get install -y "$1" -qq
+		sudo apt-get update
+			sudo apt-get install -y nginx
 	fi
 }
 
@@ -50,7 +50,7 @@ server_config=\
 			try_files \$uri \$uri/ =404;
 		}
 		if (\$request_filename ~ redirect_me){
-			rewrite ^ https://Engedasew-Haile.tech/ permanent;
+			rewrite ^ https://engedasew-haile.tech/ permanent;
 		}
 		error_page 404 /error_404.html;
 		location = /error_404.html {
