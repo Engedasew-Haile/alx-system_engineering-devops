@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # root user is a superuser that can do anything on a Unix machine, the top admini
 sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
 sed -i "s/80/8080/g" /etc/nginx/sites-available/default
