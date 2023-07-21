@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # runs whoami command
-sudo -v "$1" whoami
+sudo -u "$1" whoami
+
