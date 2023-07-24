@@ -1,44 +1,36 @@
 #!/usr/bin/python3
-
 """
-Dictionary of list of dictionaries
-mandatory
-Using what you did in the task #0, extend your Python script to export data in the JSON format.
-Records all tasks from all employees
+Script that, using this REST API, for a given employee ID, returns
+information about his/her TODO list progress
+and export data in the JSON format.
 """
 
-from requests import get
-from sys import argv
 import json
+import requests
+from sys import argv
+
 
 if __name__ == "__main__":
-    response = get('https://jsonplaceholder.typicode.com/todos/')
-    data = response.json()
 
-    row = []
-    response2 = get('https://jsonplaceholder.typicode.com/users')
-    data2 = response2.json()
+    import json
+    import requests
+    import sys
 
-    for i in data2:
-        if i['id'] == int(argv[1]):
-            u_name = i['username']
-            id_no = i['id']
+    users = requests.get("https://jsonplaceholder.typicode.com/users")
+    users = users.json()
+    todos = requests.get('https://jsonplaceholder.typicode.com/todos')
+    todos = todos.json()
+    todoAll = {}
 
-    row = []
+    for user in users:
+        taskList = []
+        for task in todos:
+            if task.get('userId') == user.get('id'):
+                taskDict = {"username": user.get('username'),
+                            "task": task.get('title'),
+                            "completed": task.get('completed')}
+                taskList.append(taskDict)
+        todoAll[user.get('id')] = taskList
 
-    for i in data:
-
-        new_dict = {}
-
-        if i['userId'] == int(argv[1]):
-            new_dict['username'] = u_name
-            new_dict['task'] = i['title']
-            new_dict['completed'] = i['completed']
-            row.append(new_dict)
-
-    final_dict = {}
-    final_dict[id_no] = row
-    json_obj = json.dumps(final_dict)
-
-    with open(argv[1] + ".json",  "w") as f:
-        f.write(json_obj)
+    with open('todo_all_employees.json', mode='w') as f:
+        json.dump(todoAll, f)
